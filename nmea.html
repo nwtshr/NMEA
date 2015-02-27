@@ -1,0 +1,51 @@
+!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+            <meta name="viewport" content="initial-scale=1.0,user-scalable=no">
+                <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
+                <script type="text/javascript">
+                    
+                    function latlng() {
+
+                           document.NMEA.C.value = eval(document.NMEA.A.value) + eval(document.NMEA.B.value) / 60 ;
+            
+                           document.NMEA.F.value = eval(document.NMEA.D.value) + eval(document.NMEA.E.value) / 60;
+
+                            var lat =  document.NMEA.C.value;
+                            var lng =  document.NMEA.F.value;
+
+                            var msg = document.getElementById("msg");
+                            msg.innerHTML = "<div>緯度:" + lat + " 経度:" + lng + "</div>";
+                            
+                            var latlng = new google.maps.LatLng(lat, lng);
+                            var myOptions = {
+                                zoom: 13,
+                                center: latlng,
+                                mapTypeId: google.maps.MapTypeId.ROADMAP
+                            };
+                            
+                            var googlemap = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+                            var marker = new google.maps.Marker({position: latlng, map: googlemap,});
+                        }
+
+             </script>
+    </head>
+    <body onload="latlng()">
+    <FORM name="NMEA">
+
+        <p>NMEA緯度の整数部分 ex:35 <input type="text" name="A">
+           少数部分 ex:40.8581 <input type="text" name="B"></p>
+      　<input type="button" value="click" onclick="latlng()">
+        <p>GPS緯度<input type="text" name="C"></p>
+
+        <p>NMEA経度の整数部分 ex:139 <input type="text" name="D">
+           少数部分 ex:45.9603 <input type="text" name="E"></p>
+        <input type="button" value="click" onclick="latlng()">
+        <p>GPS経度<input type="text" name="F"></p>
+
+    </FORM>
+        <div id="msg"></div>
+        <div id="map_canvas" style="width:480px; height:360px;"></div>
+    </body>
+</html>
